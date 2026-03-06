@@ -1,8 +1,0 @@
-{
-    "require": {
-        "symfony/http-kernel": "^7.4",
-        "symfony/routing": "^7.4",
-        "symfony/serializer": "^7.4",
-        "symfony/cache": "^7.4"
-    }
-}
