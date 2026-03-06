@@ -30,7 +30,7 @@ composer install
 
 ### 2. Nastavení prostředí
 
-Vytvořit soubor `.env.test` (nebo upravit existující) a nastavit potřebné proměnné:
+Vytvořit soubor `.env.local` (nebo upravit existující) a nastavit potřebné proměnné:
 
 ```env
 DEFAULT_URI=http://localhost
@@ -49,15 +49,9 @@ Aplikace bude dostupná na adrese:
 http://localhost:8000/product-info/{id}
 ```
 
-Příklad requestu:
-
-```
-GET /product-info/123
-```
-
 ---
 
-### Spouštění testů
+### Testování
 
 Projekt používá framework **Codeception**.
 
@@ -85,15 +79,6 @@ vendor/bin/codecept run Api
 
 ---
 
-## Technické poznámky
-
-- **Práce se soubory**   
-  Ve třídě `FileProductQueryCounter` je použito zamykání souboru pomocí `flock`, které zajišťuje bezpečný zápis i při více paralelních požadavcích.  
-  Pro čtení obsahu souboru je využito `stream_get_contents`, aby se předešlo problémům s PHP stat cache při práci s velikostí souboru.
-
-- **Rozšiřitelnost**  
-  Aplikace využívá `ProductDataProviderInterface`, díky čemuž lze jednoduše přidat nebo změnit zdroj dat (např. ElasticSearch, MySQL nebo jiný provider) bez zásahu do business logiky aplikace.
-
 ## Myšlenkový proces a postup
 
 Při řešení jsem se snažil hlavně o to, aby aplikace byla jednoduchá, ale zároveň připravená na reálné použití.
@@ -102,11 +87,9 @@ Nejdřív jsem se zaměřil na oddělení jednotlivých zodpovědností. Proto j
 
 ElasticSearch je použit jako primární zdroj, protože je typicky rychlejší pro vyhledávání. Zároveň jsem ale přidal fallback na MySQL, aby aplikace fungovala i v případě, že ElasticSearch není dostupný.
 
-Další věc, na kterou jsem se zaměřil, byl caching. Pro cache jsem zvolil Symfony Cache komponentu, protože je přímo součástí Symfony ekosystému a umožňuje snadno změnit backend (například na Redis) bez změny aplikační logiky. Cache je použita proto, aby se minimalizoval počet dotazů na externí služby.
+Další věc, na kterou jsem se zaměřil, byl caching. Pro cache jsem zvolil Symfony Cache komponentu, protože je přímo součástí Symfony ekosystému a umožňuje snadno změnit backend (například na Redis) bez změny aplikační logiky. Cache je použita proto, aby se minimalizoval počet dotazů na databázi.
 
-Součástí zadání bylo také počítání počtu dotazů na produkt. Implementoval jsem jednoduché řešení pomocí JSON souboru. Aby nedocházelo ke ztrátě dat při více současných requestech, použil jsem zamykání souboru pomocí flock(). Tím je zajištěno, že vždy zapisuje pouze jeden proces.
-
-Nakonec jsem přidal unit testy pro jednotlivé služby a providery a functional test pro API endpoint, abych ověřil, že celý request flow funguje správně.
+Součástí zadání bylo také počítání počtu dotazů na produkt. Implementoval jsem jednoduché řešení pomocí ukládání do JSON souboru. Aby nedocházelo ke ztrátě dat při více současných requestech, použil jsem zamykání souboru pomocí flock(). Tím je zajištěno, že vždy zapisuje pouze jeden proces. Kód by otestován.
 
 ---
 Autor: Štěpán Balatka
