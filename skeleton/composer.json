@@ -14,8 +14,6 @@
         "symfony/runtime": "7.4.*",
         "symfony/yaml": "7.4.*"
     },
-    "require-dev": {
-    },
     "config": {
         "allow-plugins": {
             "php-http/discovery": true,
@@ -32,7 +30,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "Tests\\": "tests/"
         }
     },
     "replace": {
@@ -65,5 +63,13 @@
             "allow-contrib": false,
             "require": "7.4.*"
         }
+    },
+    "require-dev": {
+        "codeception/codeception": "^5.3",
+        "codeception/module-asserts": "^3.3",
+        "codeception/module-rest": "^3.4",
+        "codeception/module-symfony": "^3.8",
+        "mockery/mockery": "^1.6",
+        "codeception/module-phpbrowser": "*"
     }
 }

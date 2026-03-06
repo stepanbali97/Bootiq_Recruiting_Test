@@ -5,15 +5,18 @@
  *
  * @author: Štěpán Balatka <stepan.balatka@seznam.cz>
  *
- * @date: 4.3.2026
+ * @date: 5.3.2026
  */
 
 namespace App\Counter;
 
+/**
+ * Product query counter interface
+ */
 interface ProductQueryCounterInterface
 {
     /**
-     * Increments query counter for given product ID.
+     * Increases the query count for the specified product.
      *
      * @param string $id
      */

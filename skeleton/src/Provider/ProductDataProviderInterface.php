@@ -5,20 +5,21 @@
  *
  * @author: Štěpán Balatka <stepan.balatka@seznam.cz>
  *
- * @date: 4.3.2026
+ * @date: 5.3.2026
  */
 
 namespace App\Provider;
 
 /**
- * unifying adapter over IElasticSearchDriver::findById() and IMySQLDriver::findProduct()
+ * Unifying interface over IElasticSearchDriver::findById() and IMySQLDriver::findProduct()
  */
 interface ProductDataProviderInterface
 {
     /**
-     * Returns product data by its ID.
+     * Returns product data as an array by its unique ID.
      *
      * @param string $id
+     *
      * @return array
      */
     public function getById(string $id): array;
