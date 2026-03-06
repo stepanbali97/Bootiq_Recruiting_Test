@@ -13,12 +13,19 @@ namespace Tests\Unit\Service;
 use App\Service\ProductService;
 use App\Provider\ProductDataProviderInterface;
 use App\Counter\ProductQueryCounterInterface;
+use Closure;
 use Codeception\Test\Unit;
 use Mockery;
 use Symfony\Contracts\Cache\CacheInterface;
 
+/**
+ * Product service test
+ */
 class ProductServiceTest extends Unit
 {
+    /**
+     * @return void
+     */
     public function testGetProductFetchesFromProviderWhenCacheMiss(): void
     {
         $productId = '123';
@@ -42,7 +49,7 @@ class ProductServiceTest extends Unit
         $cache
             ->shouldReceive('get')
             ->once()
-            ->with('product_' . $productId, Mockery::type(\Closure::class))
+            ->with('product_' . $productId, Mockery::type(Closure::class))
             ->andReturnUsing(function ($key, $callback) {
                 return $callback();
             });
@@ -54,6 +61,9 @@ class ProductServiceTest extends Unit
         $this->assertSame($expectedProduct, $result);
     }
 
+    /**
+     * @return void
+     */
     public function testGetProductReturnsFromCacheWithoutCallingProvider(): void
     {
         $productId = '123';
@@ -75,7 +85,7 @@ class ProductServiceTest extends Unit
         $cache
            ->shouldReceive('get')
             ->once()
-            ->with('product_' . $productId, $this->isInstanceOf(\Closure::class))
+            ->with('product_' . $productId, $this->isInstanceOf(Closure::class))
             ->andReturn($cachedProduct);
 
         $service = new ProductService($cache, $provider, $counter);
@@ -83,5 +93,13 @@ class ProductServiceTest extends Unit
         $result = $service->getProduct($productId);
 
         $this->assertSame($cachedProduct, $result);
+    }
+
+     /**
+     * @return void
+     */
+    protected function _after(): void
+    {
+        Mockery::close();
     }
 }

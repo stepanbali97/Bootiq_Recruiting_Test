@@ -13,10 +13,16 @@ namespace Tests\Unit\Counter;
 use App\Counter\FileProductQueryCounter;
 use Codeception\Test\Unit;
 
+/**
+ * File product query counter test
+ */
 class FileProductQueryCounterTest extends Unit
 {
     private string $filePath;
 
+    /**
+     * @return void
+     */
     public function testIncrementCreatesFileAndAddsFirstValue(): void
     {
         $counter = new FileProductQueryCounter($this->filePath);
@@ -26,9 +32,12 @@ class FileProductQueryCounterTest extends Unit
         $content = json_decode(file_get_contents($this->filePath), true);
 
         $this->assertArrayHasKey('123', $content);
-        $this->assertEquals(1, $content['123']);
+        $this->assertSame(1, $content['123']);
     }
 
+    /**
+     * @return void
+     */
     public function testIncrementIncreasesExistingValue(): void
     {
         $counter = new FileProductQueryCounter($this->filePath);
@@ -41,9 +50,12 @@ class FileProductQueryCounterTest extends Unit
 
         $content = json_decode(file_get_contents($this->filePath), true);
 
-        $this->assertEquals(2, $content['123']);
+        $this->assertSame(2, $content['123']);
     }
 
+    /**
+     * @return void
+     */
     public function testIncrementWorksForMultipleProducts(): void
     {
         $counter = new FileProductQueryCounter($this->filePath);
@@ -54,10 +66,13 @@ class FileProductQueryCounterTest extends Unit
         clearstatcache(true, $this->filePath); 
         $content = json_decode(file_get_contents($this->filePath), true);
 
-        $this->assertEquals(1, $content['123']);
-        $this->assertEquals(1, $content['456']);
+        $this->assertSame(1, $content['123']);
+        $this->assertSame(1, $content['456']);
     }
 
+    /**
+     * @return void
+     */
      protected function _before(): void
     {
         $this->filePath = tempnam(sys_get_temp_dir(), 'product_counter_test_');
@@ -66,6 +81,9 @@ class FileProductQueryCounterTest extends Unit
         clearstatcache(true, $this->filePath);
     }
 
+    /**
+     * @return void
+     */
     protected function _after(): void
     {
         if (file_exists($this->filePath)) {

@@ -12,21 +12,27 @@ namespace Tests\Unit\Provider;
 
 use App\Provider\ElasticSearchProductProvider;
 use App\Provider\FallbackProductProvider;
-use App\Provider\MySqlProductProvider;
+use App\Provider\MySQLProductProvider;
 use Codeception\Test\Unit;
 use Exception;
 use Mockery;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Fallback product provider test
+ */
 class FallbackProductProviderTest extends Unit
 {
+    /**
+     * @return void
+     */
     public function testUsesMysqlWhenForceMysqlIsTrue(): void
     {
         $productId = '123';
         $expectedProduct = ['id' => '123'];
 
         $elastic = Mockery::mock(ElasticSearchProductProvider::class);
-        $mysql = Mockery::mock(MySqlProductProvider::class);
+        $mysql = Mockery::mock(MySQLProductProvider::class);
         $logger = Mockery::mock(LoggerInterface::class);
 
         $elastic->shouldReceive('getById')->never();
@@ -49,13 +55,16 @@ class FallbackProductProviderTest extends Unit
         $this->assertSame($expectedProduct, $result);
     }
 
+    /**
+     * @return void
+     */
     public function testUsesElasticWhenAvailable(): void
     {
         $productId = '123';
         $expectedProduct = ['id' => '123'];
 
         $elastic = Mockery::mock(ElasticSearchProductProvider::class);
-        $mysql = Mockery::mock(MySqlProductProvider::class);
+        $mysql = Mockery::mock(MySQLProductProvider::class);
         $logger = Mockery::mock(LoggerInterface::class);
 
         $elastic
@@ -79,13 +88,16 @@ class FallbackProductProviderTest extends Unit
         $this->assertSame($expectedProduct, $result);
     }
 
+    /**
+     * @return void
+     */
     public function testFallsBackToMysqlWhenElasticFails(): void
     {
         $productId = '123';
         $expectedProduct = ['id' => '123'];
 
         $elastic = Mockery::mock(ElasticSearchProductProvider::class);
-        $mysql = Mockery::mock(MySqlProductProvider::class);
+        $mysql = Mockery::mock(MySQLProductProvider::class);
         $logger = Mockery::mock(LoggerInterface::class);
 
         $elastic
@@ -114,5 +126,13 @@ class FallbackProductProviderTest extends Unit
         $result = $provider->getById($productId);
 
         $this->assertSame($expectedProduct, $result);
+    }
+
+     /**
+     * @return void
+     */
+    protected function _after(): void
+    {
+        Mockery::close();
     }
 }

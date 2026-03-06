@@ -13,8 +13,14 @@ namespace Tests\Unit\Model;
 use App\Model\MySQL;
 use Codeception\Test\Unit;
 
+/**
+ * MySQL test
+ */
 class MySQLTest extends Unit
 {
+    /**
+     * @return void
+     */
     public function testFindById(): void
     {
         $mysql = new MySQL();

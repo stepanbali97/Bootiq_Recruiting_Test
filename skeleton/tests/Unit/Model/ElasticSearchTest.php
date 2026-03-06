@@ -13,8 +13,14 @@ namespace Tests\Unit\Model;
 use App\Model\ElasticSearch;
 use Codeception\Test\Unit;
 
+/**
+ * ElasticSearch test
+ */
 class ElasticSearchTest extends Unit
 {
+    /**
+     * @return void
+     */
     public function testFindById(): void
     {
         $elasticSearch = new ElasticSearch();

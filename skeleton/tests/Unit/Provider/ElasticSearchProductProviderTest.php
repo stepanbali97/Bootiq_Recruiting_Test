@@ -15,13 +15,14 @@ use App\Provider\ElasticSearchProductProvider;
 use Codeception\Test\Unit;
 use Mockery;
 
+/**
+ * ElasticSearch product provider test
+ */
 class ElasticSearchProductProviderTest extends Unit
 {
-    protected function _after(): void
-    {
-        Mockery::close();
-    }
-
+    /**
+     * @return void
+     */
     public function testGetByIdReturnsProductFromDriver(): void
     {
         $productId = '123';
@@ -44,5 +45,13 @@ class ElasticSearchProductProviderTest extends Unit
         $result = $provider->getById($productId);
 
         $this->assertSame($expectedProduct, $result);
+    }
+
+    /**
+     * @return void
+     */
+    protected function _after(): void
+    {
+        Mockery::close();
     }
 }

@@ -20,13 +20,13 @@ class FallbackProductProvider implements ProductDataProviderInterface
 {
     /**
      * @param ElasticSearchProductProvider $elasticProvider
-     * @param MySqlProductProvider         $mysqlProvider
+     * @param MySQLProductProvider         $mysqlProvider
      * @param LoggerInterface              $logger
      * @param bool                         $forceMysql 
      */
     public function __construct(
         private readonly ElasticSearchProductProvider $elasticProvider,
-        private readonly MySqlProductProvider $mysqlProvider,
+        private readonly MySQLProductProvider $mysqlProvider,
         private readonly LoggerInterface $logger,
         private readonly bool $forceMysql
     ) {

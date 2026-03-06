@@ -11,17 +11,18 @@
 namespace Tests\Unit\Provider;
 
 use App\Model\IMySQLDriver;
-use App\Provider\MySqlProductProvider;
+use App\Provider\MySQLProductProvider;
 use Codeception\Test\Unit;
 use Mockery;
 
-class MySqlProductProviderTest extends Unit
+/**
+ * MySQL product provider test
+ */
+class MySQLProductProviderTest extends Unit
 {
-    protected function _after(): void
-    {
-        Mockery::close();
-    }
-
+    /**
+     * @return void
+     */
     public function testGetByIdReturnsProductFromDriver(): void
     {
         $productId = '123';
@@ -39,10 +40,18 @@ class MySqlProductProviderTest extends Unit
             ->with($productId)
             ->andReturn($expectedProduct);
 
-        $provider = new MySqlProductProvider($mysqlDriver);
+        $provider = new MySQLProductProvider($mysqlDriver);
 
         $result = $provider->getById($productId);
 
         $this->assertSame($expectedProduct, $result);
+    }
+
+     /**
+     * @return void
+     */
+    protected function _after(): void
+    {
+        Mockery::close();
     }
 }

@@ -15,7 +15,7 @@ use App\Model\IMySQLDriver;
 /**
  * MySql product provider
  */
-class MySqlProductProvider implements ProductDataProviderInterface
+class MySQLProductProvider implements ProductDataProviderInterface
 {
     private $mysqlDriver;
 
